@@ -20,9 +20,9 @@
 <script type="text/javascript" src="js/funcoes.js"></script>
 </head>
 <body>
+	<form method="post" action="servletCliente">
 	<h2 class="bg-dark text-white">Cardápio Web</h2>
 	<div class="container">
-		<form>
 			<div class="form-group row">
 
 				<div class="col-12">
@@ -72,16 +72,16 @@
 				</div>
 			</div>
 			<div class="form-group row">
-
+			
 				<div class="col-12">
 					<input id="endereco" name="endereco" placeholder="Endereço"
 						type="text" class="form-control">
 				</div>
 			</div>
-		</form>
+		
 	</div>
 	<button id="bt-continuar" onclick="" type="submit" class="btn btn-primary confirmar">
-		Continuar
-	</button>
+		Continuar</button>
+</Form>
 </body>
 </html>

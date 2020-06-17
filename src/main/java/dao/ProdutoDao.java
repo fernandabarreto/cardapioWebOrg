@@ -9,6 +9,24 @@ import java.util.List;
 import modelo.Produto;
 
 public class ProdutoDao {
+	public Produto buscarID(int id) {
+		Produto p = new Produto();
+		try {
+			Connection conexao = Conexao.getConectar();
+			PreparedStatement pst = conexao.prepareStatement("select * from produto where id = ?");
+			pst.setInt(1, id);
+			ResultSet rs = pst.executeQuery();
+			while (rs.next()) {
+				p.setId(rs.getInt("id"));
+				p.setNome(rs.getString("nome"));
+				p.setPreco(rs.getFloat("preco"));
+			}
+		} catch (Exception e) {
+			// TODO: handle exception
+		}
+		
+		return p;
+	}
 	
 	public List<Produto> buscarTudo() {
 		List<Produto> ls = new ArrayList<Produto>();
