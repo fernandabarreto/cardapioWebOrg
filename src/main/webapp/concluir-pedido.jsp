@@ -1,3 +1,4 @@
+<%@page import="modelo.Pedido"%>
 <%@page import="modelo.ListaProduto"%>
 <%@page import="modelo.Cliente"%>
 <%@ page language="java" contentType="text/html; charset=UTF-8"
@@ -24,19 +25,53 @@
 <body>
 	<h2 class="bg-dark text-white">Cardápio Web</h2>
 	<div class="container">
-	<%
-	HttpSession sessao = request.getSession(); 
-	
-	Cliente cliente = (Cliente) sessao.getAttribute("objCliente");
-	out.print("Cliente: "+cliente.getNome());
-	out.print("<br>Lista Produto <br>");
-	
-	ListaProduto[] lsProduto = (ListaProduto[]) sessao.getAttribute("lsProduto");
-	
-	for (ListaProduto item : lsProduto) {
-		out.println(item.getProduto().getNome()+"<br>");
-	}
-	%>
+		<%
+			HttpSession sessao = request.getSession();
+
+			Cliente cliente = (Cliente) sessao.getAttribute("objCliente");
+			out.print("Cliente: " + cliente.getNome());
+
+			ListaProduto[] lsProduto = (ListaProduto[]) sessao.getAttribute("lsProduto");
+		%>
+
+		<table class="table table-striped">
+			<thead>
+				<tr>
+					<th>Produto</th>
+					<th>QT</th>
+					<th>Valor</th>
+				</tr>
+			</thead>
+			<tbody>
+				<%
+					Pedido pedido = new Pedido();
+					for (ListaProduto item : lsProduto) {
+						out.println("<tr>");
+						out.println("<td>" + item.getProduto().getNome() + "</td>");
+						out.println("<td>" + item.getQuantidade() + "</td>");
+						out.println("<td>" + item.getTotal() + "</td>");
+						out.println("</tr>");
+						pedido.setTotal(pedido.getTotal() + item.getTotal());
+					}
+					out.println("<tr>");
+					out.println("<td>Total do pedido</td>");
+					out.println("<td></td>");
+					out.println("<td>" + pedido.getTotal() + "</td>");
+					out.println("</tr>");
+
+					sessao.setAttribute("objPedido", pedido);
+				%>
+			</tbody>
+		</table>
+		Dados da Entrega:<br>
+		<%
+			out.print(cliente.getEndereco() + " - " + cliente.getCidade());
+		%>
+
 	</div>
+	<form action="servletPedido" method="post">
+		<button id="bt-concluir-pedido" name="submit" type="submit"
+			class="btn btn-primary confirmar">Concluir Pedido</button>
+	</form>
 </body>
 </html>
